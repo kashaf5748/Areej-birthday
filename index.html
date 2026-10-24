@@ -401,11 +401,11 @@
             <button class="btn" id="btn-after-cake" style="display:none;" onclick="nextScreen('screen-gallery')">View Memories 📸</button>
         </div>
 
-        <!-- SCREEN 10: GALLERY -->
+        <!-- SCREEN 10: GALLERY (Updated with OneDrive Links) -->
         <div id="screen-gallery" class="window-body screen">
             <h2>Our Memories 📸</h2>
             <div class="polaroid">
-                <img id="gallery-img" src="photo1.jpg" alt="Areej Memory" onerror="this.src='https://via.placeholder.com/200?text=Add+photo1.jpg'">
+                <img id="gallery-img" src="https://1drv.ms/i/c/d5a17a02bc1da404/IQBtZffYu3JLR52J1y9XOPx2ARSOAgq3qG4fBH-e5NnyD5Q?e=7TJxdH" alt="Areej Memory">
                 <p style="margin-top: 8px; font-size: 12px; margin-bottom: 0;">Bestie Moments 💕</p>
             </div>
             <button class="btn" onclick="prevPhoto()">⬅️ Prev</button>
@@ -418,7 +418,7 @@
             <div class="letter-content">
                 <p><b>My Dearest Bestie Areej,</b><br><br>
                 You know having you in my life makes everything brighter and happier! Thank you for being my comfort zone, my partner in crime, and my favorite person.<br><br>
-                Aur haan... ek baat toh lazmi karni hai... <b>Jaldi se shadi kar 😅😂!</b> Jaldi se duleh raja ko wapis bulao  aur humein ache ache khane khilao.<br><br>
+                Aur haan... ek baat toh lazmi karni hai... <b>Jaldi se shadi kar 😅😂!</b> Jaldi se duleh raja dhoondo aur humein ache ache khane khilao.<br><br>
                 May you achieve all your dreams and stay smiling always. Happy Birthday! 🎉💕</p>
             </div>
             <button class="btn" onclick="alert('Happy Birthday once again Areej! 💖✨')">Finish 🎉</button>
@@ -426,6 +426,15 @@
     </div>
 
     <script>
+        // Array holding all 5 OneDrive photos for the gallery
+        const photoLinks = [
+            "https://1drv.ms/i/c/d5a17a02bc1da404/IQBtZffYu3JLR52J1y9XOPx2ARSOAgq3qG4fBH-e5NnyD5Q?e=7TJxdH",
+            "https://1drv.ms/i/c/d5a17a02bc1da404/IQAuANq6luMGRqBJmHKb4495AcPNz4IpfHQTfnNadDE-Y7w?e=QcgRT4",
+            "https://1drv.ms/i/c/d5a17a02bc1da404/IQAIYyIWSH6zTJITTkQvBMrJAXJQO7hv6Zb8d-Ufo5hRvis?e=ZswQ8s",
+            "https://1drv.ms/i/c/d5a17a02bc1da404/IQC40WSEtjQpSpMSqAgEwswuAdPfYM_b62v0UP31N-RyAjA?e=kV2mcC",
+            "https://1drv.ms/i/c/d5a17a02bc1da404/IQC8XzN8WDn6TomKY60sHQpFAQ2ytBQUjbAkGjZclR03LeI?e=Dq6LB6"
+        ];
+
         function checkPasscode() {
             const input = document.getElementById('passcode-input').value;
             if(input === "2516") {
@@ -605,22 +614,21 @@
             }
         }
 
-        // Gallery
-        let currentPhotoIndex = 1;
-        const totalPhotos = 5;
+        // Gallery Navigation (Loops through all 5 OneDrive photos)
+        let currentIndex = 0;
         function nextPhoto() {
-            currentPhotoIndex++;
-            if(currentPhotoIndex > totalPhotos) {
+            currentIndex++;
+            if(currentIndex >= photoLinks.length) {
                 nextScreen('screen-letter');
                 return;
             }
-            document.getElementById('gallery-img').src = `photo${currentPhotoIndex}.jpg`;
+            document.getElementById('gallery-img').src = photoLinks[currentIndex];
         }
 
         function prevPhoto() {
-            currentPhotoIndex--;
-            if(currentPhotoIndex < 1) currentPhotoIndex = 1;
-            document.getElementById('gallery-img').src = `photo${currentPhotoIndex}.jpg`;
+            currentIndex--;
+            if(currentIndex < 0) currentIndex = 0;
+            document.getElementById('gallery-img').src = photoLinks[currentIndex];
         }
     </script>
 </body>
