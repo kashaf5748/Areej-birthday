@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Areej! 💖</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --bg-color: #ffe6f2;
+            --box-bg: #fff0f5;
+            --border-color: #ffb3d1;
+            --text-color: #d63384;
+            --accent-color: #ff66b2;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Quicksand', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .bg-element {
+            position: absolute;
+            color: rgba(255, 102, 178, 0.3);
+            animation: floatUp 6s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        }
+
+        .window {
+            background: var(--box-bg);
+            border: 3px solid var(--border-color);
+            border-radius: 12px;
+            width: 90%;
+            max-width: 440px;
+            box-shadow: 0 10px 25px rgba(214, 51, 132, 0.2);
+            z-index: 10;
+            overflow: hidden;
+            animation: popIn 0.5s ease-out;
+            margin: 20px 0;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .title-bar {
+            background: var(--border-color);
+            padding: 8px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 10px;
+            color: #fff;
+        }
+
+        .window-body {
+            padding: 25px 20px;
+            text-align: center;
+        }
+
+        h1, h2 {
+            color: var(--text-color);
+            margin-bottom: 15px;
+        }
+
+        p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(255, 102, 178, 0.4);
+            transition: transform 0.2s, background-color 0.2s;
+            font-family: 'Quicksand', sans-serif;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            background-color: #e60073;
+        }
+
+        input[type="password"], input[type="text"] {
+            padding: 10px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            width: 80%;
+            text-align: center;
+            font-size: 16px;
+            margin-bottom: 15px;
+            outline: none;
+            color: var(--text-color);
+        }
+
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        /* Countdown */
+        .countdown-box {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .time-card {
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            min-width: 50px;
+        }
+
+        .time-card span {
+            display: block;
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        .time-card small {
+            font-size: 10px;
+            color: #888;
+        }
+
+        /* Balloon mini-game */
+        .balloon-container {
+            height: 220px;
+            position: relative;
+            background: #fff;
+            border-radius: 8px;
+            border: 1px dashed var(--border-color);
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .balloon {
+            position: absolute;
+            width: 40px;
+            height: 50px;
+            background: #ff4d94;
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            cursor: pointer;
+            animation: floatBalloon 4s ease-in-out infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+        }
+
+        @keyframes floatBalloon {
+            0% { bottom: -50px; transform: scale(1); }
+            100% { bottom: 250px; transform: scale(1); }
+        }
+
+        /* Quiz */
+        .quiz-option {
+            background: white;
+            border: 2px solid var(--border-color);
+            padding: 10px;
+            border-radius: 10px;
+            margin: 8px 0;
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--text-color);
+            transition: 0.2s;
+        }
+        .quiz-option:hover {
+            background: var(--border-color);
+            color: white;
+        }
+
+        /* Scratch Card */
+        .scratch-container {
+            position: relative;
+            width: 250px;
+            height: 120px;
+            margin: 0 auto 15px auto;
+        }
+
+        #scratch-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .scratch-award {
+            width: 100%;
+            height: 100%;
+            background: white;
+            border: 2px dashed var(--accent-color);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-color);
+            font-weight: bold;
+            padding: 10px;
+        }
+
+        /* Wheel */
+        .wheel-box {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 15px auto;
+        }
+
+        #wheel-canvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 5px solid var(--accent-color);
+            transition: transform 3s cubic-bezier(0.15, 0.99, 0.15, 0.99);
+        }
+
+        .pointer {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            z-index: 20;
+        }
+
+        /* Gallery */
+        .polaroid {
+            background: white;
+            padding: 10px 10px 25px 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            margin: 0 auto 15px auto;
+            width: 220px;
+            transform: rotate(-2deg);
+        }
+
+        .polaroid img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 2px;
+        }
+
+        /* Letter Box */
+        .letter-content {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: left;
+            max-height: 200px;
+            overflow-y: auto;
+            font-size: 13px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-element" style="left: 10%; animation-duration: 5s;">💖</div>
+    <div class="bg-element" style="left: 30%; animation-duration: 7s;">✨</div>
+    <div class="bg-element" style="left: 70%; animation-duration: 6s;">🎈</div>
+    <div class="bg-element" style="left: 85%; animation-duration: 8s;">💖</div>
+
+    <div class="window">
+        <div class="title-bar">
+            <span>Areej_Surprise.exe</span>
+            <span>🔒</span>
+        </div>
+
+        <!-- SCREEN 1: PASSCODE -->
+        <div id="screen-passcode" class="window-body screen active">
+            <h2>Enter Passcode ✨</h2>
+            <p>Hint: Special passcode (4 digits)</p>
+            <input type="password" id="passcode-input" placeholder="••••" maxlength="4">
+            <br>
+            <button class="btn" onclick="checkPasscode()">Unlock 💖</button>
+            <p id="error-msg" style="color: red; font-size: 12px; margin-top: 10px;"></p>
+        </div>
+
+        <!-- SCREEN 2: COUNTDOWN -->
+        <div id="screen-countdown" class="window-body screen">
+            <h2>Countdown to 25th Oct ⏳</h2>
+            <p>Areej, your special surprise unlocks on your birthday!</p>
+            <div class="countdown-box">
+                <div class="time-card"><span id="days">00</span><small>Days</small></div>
+                <div class="time-card"><span id="hours">00</span><small>Hours</small></div>
+                <div class="time-card"><span id="mins">00</span><small>Mins</small></div>
+                <div class="time-card"><span id="secs">00</span><small>Secs</small></div>
+            </div>
+            <button class="btn" onclick="bypassCountdown()">Bypass (For Testing)</button>
+        </div>
+
+        <!-- SCREEN 3: WELCOME -->
+        <div id="screen-welcome" class="window-body screen">
+            <h2>Happy Birthday Areej! 🎉💖</h2>
+            <p>A little surprise crafted specially for my bestie. Ready for fun tasks?</p>
+            <button class="btn" onclick="nextScreen('screen-balloons')">Start Fun Tasks 🚀</button>
+        </div>
+
+        <!-- SCREEN 4: BALLOON POP -->
+        <div id="screen-balloons" class="window-body screen">
+            <h2>Task 1: Pop Balloons! 🎈</h2>
+            <p>Pop at least 3 balloons to proceed!</p>
+            <div class="balloon-container" id="balloon-field"></div>
+            <button class="btn" id="next-from-balloons" style="display:none;" onclick="nextScreen('screen-quiz')">Next Task ➡️</button>
+        </div>
+
+        <!-- SCREEN 5: QUIZ CHALLENGE -->
+        <div id="screen-quiz" class="window-body screen">
+            <h2>Task 2: Bestie Quiz 👑</h2>
+            <p>What is Areej's official title in our friendship?</p>
+            <div class="quiz-option" onclick="answerQuiz(true)">Official Drama Queen & Late Reply Master 🎭</div>
+            <div class="quiz-option" onclick="answerQuiz(false)">Always On Time & Super Quiet Girl 🤫</div>
+            <div class="quiz-option" onclick="answerQuiz(false)">Serious Serious Padhaku 📚</div>
+            <p id="quiz-msg" style="margin-top: 10px; font-weight: bold;"></p>
+            <button class="btn" id="btn-quiz-next" style="display:none;" onclick="nextScreen('screen-scratch')">Next Task ➡️</button>
+        </div>
+
+        <!-- SCREEN 6: SCRATCH CARD -->
+        <div id="screen-scratch" class="window-body screen">
+            <h2>Task 3: Scratch & Reveal 🪙</h2>
+            <p>Scratch the box below with your finger/mouse!</p>
+            <div class="scratch-container">
+                <div class="scratch-award">
+                    <span>👑 OFFICIAL AWARD</span>
+                    <small>Bestie of the Year Award goes to Areej!</small>
+                </div>
+                <canvas id="scratch-canvas" width="250" height="120"></canvas>
+            </div>
+            <button class="btn" id="btn-scratch-next" style="display:none;" onclick="nextScreen('screen-wish')">Next Task ➡️</button>
+        </div>
+
+        <!-- SCREEN 7: MAKE A WISH & FIREWORKS -->
+        <div id="screen-wish" class="window-body screen">
+            <h2>Task 4: Make a Birthday Wish 🌠</h2>
+            <p>Type your special wish below and send it to the universe!</p>
+            <input type="text" id="wish-input" placeholder="Type your wish here... ✨">
+            <br>
+            <button class="btn" onclick="sendWish()">Send Wish 🎆</button>
+            <button class="btn" id="btn-wish-next" style="display:none;" onclick="nextScreen('screen-wheel')">Next Task ➡️</button>
+        </div>
+
+        <!-- SCREEN 8: SPIN THE WHEEL -->
+        <div id="screen-wheel" class="window-body screen">
+            <h2>Task 5: Birthday Treat Wheel 🎡</h2>
+            <p>Spin to see what treat you win today!</p>
+            <div class="wheel-box">
+                <div class="pointer">🔻</div>
+                <canvas id="wheel-canvas" width="200" height="200"></canvas>
+            </div>
+            <button class="btn" onclick="spinWheel()">Spin Wheel 🌀</button>
+            <p id="wheel-result" style="margin-top: 10px; font-weight: bold; color: var(--text-color);"></p>
+            <button class="btn" id="btn-wheel-next" style="display:none;" onclick="nextScreen('screen-cake')">Blow Candles 🎂</button>
+        </div>
+
+        <!-- SCREEN 9: CAKE CUTTING -->
+        <div id="screen-cake" class="window-body screen">
+            <h2>Blow Candle & Cut Cake 🎂</h2>
+            <p id="cake-status">🕯️ Click to blow out the candle!</p>
+            <div style="font-size: 50px; cursor: pointer; margin-bottom: 15px;" onclick="cutCake()" id="cake-emoji">🎂</div>
+            <button class="btn" id="btn-after-cake" style="display:none;" onclick="nextScreen('screen-gallery')">View Memories 📸</button>
+        </div>
+
+        <!-- SCREEN 10: GALLERY -->
+        <div id="screen-gallery" class="window-body screen">
+            <h2>Our Memories 📸</h2>
+            <div class="polaroid">
+                <img id="gallery-img" src="photo1.jpg" alt="Areej Memory" onerror="this.src='https://via.placeholder.com/200?text=Add+photo1.jpg'">
+                <p style="margin-top: 8px; font-size: 12px; margin-bottom: 0;">Bestie Moments 💕</p>
+            </div>
+            <button class="btn" onclick="prevPhoto()">⬅️ Prev</button>
+            <button class="btn" onclick="nextPhoto()">Next ➡️</button>
+        </div>
+
+        <!-- SCREEN 11: FINAL LETTER WITH SHADI NOTE -->
+        <div id="screen-letter" class="window-body screen">
+            <h2>A Letter For You 💌</h2>
+            <div class="letter-content">
+                <p><b>My Dearest Bestie Areej,</b><br><br>
+                You know having you in my life makes everything brighter and happier! Thank you for being my comfort zone, my partner in crime, and my favorite person.<br><br>
+                Aur haan... ek baat toh lazmi karni hai... <b>Jaldi se shadi kar 😅😂!</b> Jaldi se duleh raja ko wapis bulao  aur humein ache ache khane khilao.<br><br>
+                May you achieve all your dreams and stay smiling always. Happy Birthday! 🎉💕</p>
+            </div>
+            <button class="btn" onclick="alert('Happy Birthday once again Areej! 💖✨')">Finish 🎉</button>
+        </div>
+    </div>
+
+    <script>
+        function checkPasscode() {
+            const input = document.getElementById('passcode-input').value;
+            if(input === "2516") {
+                checkDateAndProceed();
+            } else {
+                document.getElementById('error-msg').innerText = "Wrong Passcode! Try '2516'";
+            }
+        }
+
+        function checkDateAndProceed() {
+            const targetDate = new Date("October 25, 2026 00:00:00").getTime();
+            const now = new Date().getTime();
+            
+            if (now >= targetDate || window.bypassMode) {
+                nextScreen('screen-welcome');
+                setupBalloons();
+            } else {
+                nextScreen('screen-countdown');
+                startCountdown(targetDate);
+            }
+        }
+
+        function bypassCountdown() {
+            window.bypassMode = true;
+            nextScreen('screen-welcome');
+            setupBalloons();
+        }
+
+        function startCountdown(targetDate) {
+            setInterval(() => {
+                const now = new Date().getTime();
+                const distance = targetDate - now;
+
+                if(distance < 0) {
+                    bypassCountdown();
+                    return;
+                }
+
+                document.getElementById('days').innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
+                document.getElementById('hours').innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                document.getElementById('mins').innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                document.getElementById('secs').innerText = Math.floor((distance % (1000 * 60)) / 1000);
+            }, 1000);
+        }
+
+        function nextScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+            if(screenId === 'screen-scratch') initScratch();
+            if(screenId === 'screen-wheel') drawWheel();
+        }
+
+        // 1. Balloon Game
+        let poppedCount = 0;
+        function setupBalloons() {
+            const field = document.getElementById('balloon-field');
+            field.innerHTML = '';
+            poppedCount = 0;
+            for(let i=0; i<5; i++) {
+                const b = document.createElement('div');
+                b.className = 'balloon';
+                b.innerText = 'pop';
+                b.style.left = (i * 70 + 20) + 'px';
+                b.style.animationDuration = (3 + Math.random() * 2) + 's';
+                b.onclick = function() {
+                    b.style.display = 'none';
+                    poppedCount++;
+                    if(poppedCount >= 3) {
+                        document.getElementById('next-from-balloons').style.display = 'inline-block';
+                    }
+                };
+                field.appendChild(b);
+            }
+        }
+
+        // 2. Quiz Logic
+        function answerQuiz(isCorrect) {
+            const msg = document.getElementById('quiz-msg');
+            if(isCorrect) {
+                msg.style.color = "green";
+                msg.innerText = "Haha Bilkul Sahi 100% True! 😂🎉";
+                document.getElementById('btn-quiz-next').style.display = 'inline-block';
+                confetti({ particleCount: 50 });
+            } else {
+                msg.style.color = "red";
+                msg.innerText = "Acha ji? Jhooth mat bolo, dobara try karo! 😜";
+            }
+        }
+
+        // 3. Scratch Card Logic
+        function initScratch() {
+            const canvas = document.getElementById('scratch-canvas');
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#ffb3d1';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.font = '16px Quicksand';
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText('Scratch here! ✨', 65, 65);
+
+            let isDrawing = false;
+            function scratch(e) {
+                if (!isDrawing) return;
+                const rect = canvas.getBoundingClientRect();
+                const x = (e.clientX || e.touches[0].clientX) - rect.left;
+                const y = (e.clientY || e.touches[0].clientY) - rect.top;
+                
+                ctx.globalCompositeOperation = 'destination-out';
+                ctx.beginPath();
+                ctx.arc(x, y, 15, 0, Math.PI * 2);
+                ctx.fill();
+
+                document.getElementById('btn-scratch-next').style.display = 'inline-block';
+            }
+
+            canvas.addEventListener('mousedown', () => isDrawing = true);
+            canvas.addEventListener('mouseup', () => isDrawing = false);
+            canvas.addEventListener('mousemove', scratch);
+            canvas.addEventListener('touchstart', () => isDrawing = true);
+            canvas.addEventListener('touchend', () => isDrawing = false);
+            canvas.addEventListener('touchmove', scratch);
+        }
+
+        // 4. Wish & Fireworks
+        function sendWish() {
+            const wish = document.getElementById('wish-input').value;
+            if(wish.trim() === "") {
+                alert("Pehle apni wish toh likho! ✨");
+                return;
+            }
+            confetti({ particleCount: 150, spread: 100, origin: { y: 0.6 } });
+            alert("Your wish: '" + wish + "' has been sent to the stars! 🌠💖");
+            document.getElementById('btn-wish-next').style.display = 'inline-block';
+        }
+
+        // 5. Wheel Logic
+        const treats = ["Pizza Treat 🍕", "1 Free Hug 🫂", "Jaldi Shadi Ticket 💍", "Unlimited Chocolates 🍫"];
+        function drawWheel() {
+            const canvas = document.getElementById('wheel-canvas');
+            const ctx = canvas.getContext('2d');
+            const colors = ['#ff99c8', '#fcf6bd', '#d0f4de', '#a9def9'];
+            for (let i = 0; i < 4; i++) {
+                ctx.beginPath();
+                ctx.fillStyle = colors[i];
+                ctx.moveTo(100, 100);
+                ctx.arc(100, 100, 100, i * Math.PI / 2, (i + 1) * Math.PI / 2);
+                ctx.fill();
+            }
+        }
+
+        function spinWheel() {
+            const canvas = document.getElementById('wheel-canvas');
+            const randomDegree = 1440 + Math.floor(Math.random() * 360);
+            canvas.style.transform = `rotate(${randomDegree}deg)`;
+            setTimeout(() => {
+                const won = treats[Math.floor(Math.random() * treats.length)];
+                document.getElementById('wheel-result').innerText = "You Won: " + won + "! 🎉";
+                document.getElementById('btn-wheel-next').style.display = 'inline-block';
+                confetti({ particleCount: 80 });
+            }, 3000);
+        }
+
+        // Cake Cutting
+        let candleBlown = false;
+        function cutCake() {
+            const status = document.getElementById('cake-status');
+            const emoji = document.getElementById('cake-emoji');
+            
+            if(!candleBlown) {
+                candleBlown = true;
+                status.innerText = "✨ Candle Blown! Now click again to cut the cake!";
+                emoji.innerText = "🍰";
+                confetti({ particleCount: 50 });
+            } else {
+                status.innerText = "🎉 Cake Cut Successfully!";
+                document.getElementById('btn-after-cake').style.display = 'inline-block';
+                confetti({ particleCount: 100 });
+            }
+        }
+
+        // Gallery
+        let currentPhotoIndex = 1;
+        const totalPhotos = 5;
+        function nextPhoto() {
+            currentPhotoIndex++;
+            if(currentPhotoIndex > totalPhotos) {
+                nextScreen('screen-letter');
+                return;
+            }
+            document.getElementById('gallery-img').src = `photo${currentPhotoIndex}.jpg`;
+        }
+
+        function prevPhoto() {
+            currentPhotoIndex--;
+            if(currentPhotoIndex < 1) currentPhotoIndex = 1;
+            document.getElementById('gallery-img').src = `photo${currentPhotoIndex}.jpg`;
+        }
+    </script>
+</body>
+</html>
